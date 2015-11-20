@@ -9,18 +9,17 @@
 
 %else
 %global with_check 0
-# define some macros for RHEL 6
-%global __python2 %__python
-%global python2_sitelib %python_sitelib
 %endif
 
 %global srcname setuptools
 %if 0%{?build_wheel}
-%global python2_wheelname %{srcname}-%{version}-py2.py3-none-any.whl
-%global python2_record %{python2_sitelib}/%{srcname}-%{version}.dist-info/RECORD
+%global python35u_wheelname %{srcname}-%{version}-py2.py3-none-any.whl
+%global python35u_record %{python35u_sitelib}/%{srcname}-%{version}.dist-info/RECORD
 %endif
 
-Name:           python-setuptools
+%global ius_suffix 35u
+
+Name:           python%{ius_suffix}-setuptools
 Version:        18.5
 Release:        1.ius%{?dist}
 Summary:        Easily build and distribute Python packages
@@ -37,13 +36,14 @@ Patch1:         add-setter-for-test_args.patch
 Patch2:         setuptools-18.5-disable-zip-safe.patch
 
 BuildArch:      noarch
-BuildRequires:  python2-devel
+BuildRequires:  python%{ius_suffix}-devel
 %if 0%{?build_wheel}
-BuildRequires:  python-pip
-BuildRequires:  python-wheel
+BuildRequires:  python%{ius_suffix}-pip
+BuildRequires:  python%{ius_suffix}-wheel
 %endif
 %if 0%{?with_check}
-BuildRequires:  pytest python-mock
+BuildRequires:  python%{ius_suffix}-pytest
+BuildRequires:  python%{ius_suffix}-mock
 %endif # with_check
 
 
@@ -80,27 +80,29 @@ rm setuptools/tests/test_integration.py
 
 %build
 %if 0%{?build_wheel}
-%{__python} setup.py bdist_wheel
+%{__python35u} setup.py bdist_wheel
 %else
-%{__python} setup.py build
+%{__python35u} setup.py build
 %endif
 
 
 %install
 %if 0%{?build_wheel}
-pip2 install -I dist/%{python2_wheelname} --root %{buildroot} --strip-file-prefix %{buildroot}
+pip%{python35u_version} install -I dist/%{python35u_wheelname} --root %{buildroot} --strip-file-prefix %{buildroot}
 %else
-%{__python2} setup.py install --skip-build --root %{buildroot}
+%{__python35u} setup.py install --skip-build --root %{buildroot}
 %endif
 
-rm -rf %{buildroot}%{python2_sitelib}/setuptools/tests
+rm -rf %{buildroot}%{python35u_sitelib}/setuptools/tests
 %if 0%{?build_wheel}
-sed -i '/^setuptools\/tests\//d' %{buildroot}%{python2_record}
+sed -i '/^setuptools\/tests\//d' %{buildroot}%{python35u_record}
 %endif
 
 install -p -m 0644 %{SOURCE1} %{SOURCE2} .
-find %{buildroot}%{python2_sitelib} -name '*.exe' | xargs rm -f
-chmod +x %{buildroot}%{python2_sitelib}/setuptools/command/easy_install.py
+find %{buildroot}%{python35u_sitelib} -name '*.exe' | xargs rm -f
+chmod +x %{buildroot}%{python35u_sitelib}/setuptools/command/easy_install.py
+sed -i '1s|#!/usr/bin/env python|&%{python35u_version}|' %{buildroot}%{python35u_sitelib}/setuptools/command/easy_install.py
+
 
 %if 0%{?with_check}
 %check
@@ -110,15 +112,16 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 
 %files
 %doc *.txt docs
-%{python2_sitelib}/*
+%{python35u_sitelib}/*
 %{_bindir}/easy_install
-%{_bindir}/easy_install-2.*
+%{_bindir}/easy_install-%{python35u_version}
 
 
 %changelog
 * Fri Nov 20 2015 Carl George <carl.george@rackspace.com> - 18.5-1.ius
 - Remove distribute obsoletes/provides
 - Remove subpackage structure and related things
+- Use python35u names and macros
 
 * Sun Nov 15 2015 Thomas Spura <tomspur@fedoraproject.org> - 18.5-3
 - Try to disable zip_safe bug #1271776
