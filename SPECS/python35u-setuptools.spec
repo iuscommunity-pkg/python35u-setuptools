@@ -27,7 +27,7 @@
 
 Name:           python-setuptools
 Version:        18.5
-Release:        3%{?dist}
+Release:        1.ius%{?dist}
 Summary:        Easily build and distribute Python packages
 
 Group:          Applications/System
@@ -62,12 +62,6 @@ BuildRequires:  python3-pip
 BuildRequires:  python3-wheel
 %endif # build_wheel
 %endif # with_python3
-
-# We're now back to setuptools as the package.
-# Keep the python-distribute name active for a few releases.  Eventually we'll
-# want to get rid of the Provides and just keep the Obsoletes
-Provides: python-distribute = %{version}-%{release}
-Obsoletes: python-distribute < 0.6.36-2
 
 
 %description
@@ -221,6 +215,9 @@ popd
 %endif # with_python3
 
 %changelog
+* Fri Nov 20 2015 Carl George <carl.george@rackspace.com> - 18.5-1.ius
+- Remove distribute obsoletes/provides
+
 * Sun Nov 15 2015 Thomas Spura <tomspur@fedoraproject.org> - 18.5-3
 - Try to disable zip_safe bug #1271776
 - Add python2 subpackage
