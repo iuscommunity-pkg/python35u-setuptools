@@ -110,6 +110,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 
 %changelog
 * Fri Nov 20 2015 Carl George <carl.george@rackspace.com> - 18.5-1.ius
+- Initial import from Fedora
 - Remove distribute obsoletes/provides
 - Remove subpackage structure and related things
 - Use python35u names and macros
