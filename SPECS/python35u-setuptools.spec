@@ -1,15 +1,5 @@
-%if 0%{?fedora}
-%global with_check 1
-
-# This controls whether setuptools is build as a wheel or not,
-# simplifying Python 3.4 bootstraping process
-%if %{fedora} > 20
-%global build_wheel 1
-%endif
-
-%else
+%global build_wheel 0
 %global with_check 0
-%endif
 
 %global srcname setuptools
 %if 0%{?build_wheel}
