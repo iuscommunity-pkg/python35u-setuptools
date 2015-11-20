@@ -94,8 +94,10 @@ pip%{python35u_version} install -I dist/%{python35u_wheelname} --root %{buildroo
 %endif
 
 rm -rf %{buildroot}%{python35u_sitelib}/setuptools/tests
+rm -f %{buildroot}%{_bindir}/easy_install
 %if 0%{?build_wheel}
 sed -i '/^setuptools\/tests\//d' %{buildroot}%{python35u_record}
+sed -i '/^\/usr\/bin\/easy_install,/d' %{buildroot}%{python35u_record}
 %endif
 
 install -p -m 0644 %{SOURCE1} %{SOURCE2} .
@@ -113,7 +115,6 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 %files
 %doc *.txt docs
 %{python35u_sitelib}/*
-%{_bindir}/easy_install
 %{_bindir}/easy_install-%{python35u_version}
 
 
@@ -122,6 +123,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 - Remove distribute obsoletes/provides
 - Remove subpackage structure and related things
 - Use python35u names and macros
+- Remove unversioned easy_install command
 
 * Sun Nov 15 2015 Thomas Spura <tomspur@fedoraproject.org> - 18.5-3
 - Try to disable zip_safe bug #1271776
