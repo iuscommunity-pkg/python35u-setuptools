@@ -20,8 +20,9 @@ URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
 Source1:        psfl.txt
 Source2:        zpl.txt
+#Patched upstream https://bitbucket.org/pypa/setuptools/commits/5197f0815e9ccfe4399772f8ae47c3dd8b14a1c0
 # add-setter-for-test_args.patch
-Patch1:         add-setter-for-test_args.patch
+#Patch1:         add-setter-for-test_args.patch
 # WIP patch for #1271776
 Patch2:         setuptools-18.5-disable-zip-safe.patch
 
@@ -48,7 +49,6 @@ execute the software that requires pkg_resources.py.
 
 %prep
 %setup -q -n %{srcname}-%{version}
-%patch1 -p1
 
 # We can't remove .egg-info (but it doesn't matter, since it'll be rebuilt):
 #  The problem is that to properly execute setuptools' setup.py,
@@ -111,6 +111,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 %changelog
 * Mon Nov 30 2015 Ben Harper <ben.harper@rackspace.com> - 18.7-1.ius
 - Latest upstream
+- disable Patch1, patched upstream
 
 * Fri Nov 20 2015 Carl George <carl.george@rackspace.com> - 18.5-1.ius
 - Initial import from Fedora
