@@ -58,7 +58,7 @@ rm -f %{buildroot}%{_bindir}/easy_install
 
 %if 0%{?with_check}
 %check
-LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
+LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test-%{python35u_version}
 %endif # with_check
 
 
@@ -77,6 +77,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 - Strip shebangs
 - Remove unneeded files
 - Include CHANGES.txt and README.txt in docs
+- Run correct version of py.test in %%check
 
 * Thu Feb 18 2016 Ben Harper <ben.harper@rackspace.com> - 19.7-1.ius
 - updating to 19.7
