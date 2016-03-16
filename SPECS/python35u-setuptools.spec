@@ -63,7 +63,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 
 
 %files
-%doc docs/*
+%doc docs/* CHANGES.txt README.txt
 %{python35u_sitelib}/*
 %{_bindir}/easy_install-%{python35u_version}
 
@@ -76,6 +76,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 - Remove wheel support
 - Strip shebangs
 - Remove unneeded files
+- Include CHANGES.txt and README.txt in docs
 
 * Thu Feb 18 2016 Ben Harper <ben.harper@rackspace.com> - 19.7-1.ius
 - updating to 19.7
