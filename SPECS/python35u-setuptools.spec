@@ -18,11 +18,6 @@ Group:          Applications/System
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
-#Patched upstream https://bitbucket.org/pypa/setuptools/commits/5197f0815e9ccfe4399772f8ae47c3dd8b14a1c0
-# add-setter-for-test_args.patch
-#Patch1:         add-setter-for-test_args.patch
-# WIP patch for #1271776
-Patch2:         setuptools-18.5-disable-zip-safe.patch
 
 BuildArch:      noarch
 BuildRequires:  python%{ius_suffix}-devel
@@ -109,6 +104,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 * Wed Mar 16 2016 Carl George <carl.george@rackspace.com> - 20.2.2-2.ius
 - Latest upstream
 - License changed to MIT
+- Drop unused patches
 
 * Thu Feb 18 2016 Ben Harper <ben.harper@rackspace.com> - 19.7-1.ius
 - updating to 19.7
