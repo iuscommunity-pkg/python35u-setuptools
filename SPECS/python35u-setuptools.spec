@@ -15,11 +15,9 @@ Release:        1.ius%{?dist}
 Summary:        Easily build and distribute Python packages
 
 Group:          Applications/System
-License:        Python or ZPLv2.0
+License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
-Source1:        psfl.txt
-Source2:        zpl.txt
 #Patched upstream https://bitbucket.org/pypa/setuptools/commits/5197f0815e9ccfe4399772f8ae47c3dd8b14a1c0
 # add-setter-for-test_args.patch
 #Patch1:         add-setter-for-test_args.patch
@@ -90,7 +88,6 @@ sed -i '/^setuptools\/tests\//d' %{buildroot}%{python35u_record}
 sed -i '/^\/usr\/bin\/easy_install,/d' %{buildroot}%{python35u_record}
 %endif
 
-install -p -m 0644 %{SOURCE1} %{SOURCE2} .
 find %{buildroot}%{python35u_sitelib} -name '*.exe' | xargs rm -f
 chmod +x %{buildroot}%{python35u_sitelib}/setuptools/command/easy_install.py
 sed -i '1s|#!/usr/bin/env python|&%{python35u_version}|' %{buildroot}%{python35u_sitelib}/setuptools/command/easy_install.py
@@ -103,7 +100,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 
 
 %files
-%doc *.txt docs
+%doc docs/*
 %{python35u_sitelib}/*
 %{_bindir}/easy_install-%{python35u_version}
 
@@ -111,6 +108,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 %changelog
 * Wed Mar 16 2016 Carl George <carl.george@rackspace.com> - 20.2.2-2.ius
 - Latest upstream
+- License changed to MIT
 
 * Thu Feb 18 2016 Ben Harper <ben.harper@rackspace.com> - 19.7-1.ius
 - updating to 19.7
