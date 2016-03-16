@@ -50,11 +50,10 @@ rm setuptools/tests/test_integration.py
 %install
 %{__python35u} setup.py install --skip-build --root %{buildroot}
 
+# remove undeeded items
 rm -rf %{buildroot}%{python35u_sitelib}/setuptools/tests
+rm -rf docs/{Makefile,conf.py,_*}
 rm -f %{buildroot}%{_bindir}/easy_install
-
-find %{buildroot}%{python35u_sitelib} -name '*.exe' | xargs rm -f
-chmod +x %{buildroot}%{python35u_sitelib}/setuptools/command/easy_install.py
 
 
 %if 0%{?with_check}
@@ -76,6 +75,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 - Drop unused patches
 - Remove wheel support
 - Strip shebangs
+- Remove unneeded files
 
 * Thu Feb 18 2016 Ben Harper <ben.harper@rackspace.com> - 19.7-1.ius
 - updating to 19.7
