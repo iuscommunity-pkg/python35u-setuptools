@@ -1,11 +1,6 @@
-%global build_wheel 0
 %global with_check 0
 
 %global srcname setuptools
-%if 0%{?build_wheel}
-%global python35u_wheelname %{srcname}-%{version}-py2.py3-none-any.whl
-%global python35u_record %{python35u_sitelib}/%{srcname}-%{version}.dist-info/RECORD
-%endif
 
 %global ius_suffix 35u
 
@@ -21,10 +16,6 @@ Source0:        https://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-
 
 BuildArch:      noarch
 BuildRequires:  python%{ius_suffix}-devel
-%if 0%{?build_wheel}
-BuildRequires:  python%{ius_suffix}-pip
-BuildRequires:  python%{ius_suffix}-wheel
-%endif
 %if 0%{?with_check}
 BuildRequires:  python%{ius_suffix}-pytest
 BuildRequires:  python%{ius_suffix}-mock
@@ -43,18 +34,6 @@ execute the software that requires pkg_resources.py.
 %prep
 %setup -q -n %{srcname}-%{version}
 
-# We can't remove .egg-info (but it doesn't matter, since it'll be rebuilt):
-#  The problem is that to properly execute setuptools' setup.py,
-#   it is needed for setuptools to be loaded as a Distribution
-#   (with egg-info or .dist-info dir), it's not sufficient
-#   to just have them on PYTHONPATH
-#  Running "setup.py install" without having setuptools installed
-#   as a distribution gives warnings such as
-#    ... distutils/dist.py:267: UserWarning: Unknown distribution option: 'entry_points'
-#   and doesn't create "easy_install" and .egg-info directory
-# Note: this is only a problem if bootstrapping wheel or building on RHEL,
-#  otherwise setuptools are installed as dependency into buildroot
-
 # Remove bundled exes
 rm -f setuptools/*.exe
 # These tests require internet connection
@@ -62,26 +41,14 @@ rm setuptools/tests/test_integration.py
 
 
 %build
-%if 0%{?build_wheel}
-%{__python35u} setup.py bdist_wheel
-%else
 %{__python35u} setup.py build
-%endif
 
 
 %install
-%if 0%{?build_wheel}
-pip%{python35u_version} install -I dist/%{python35u_wheelname} --root %{buildroot} --strip-file-prefix %{buildroot}
-%else
 %{__python35u} setup.py install --skip-build --root %{buildroot}
-%endif
 
 rm -rf %{buildroot}%{python35u_sitelib}/setuptools/tests
 rm -f %{buildroot}%{_bindir}/easy_install
-%if 0%{?build_wheel}
-sed -i '/^setuptools\/tests\//d' %{buildroot}%{python35u_record}
-sed -i '/^\/usr\/bin\/easy_install,/d' %{buildroot}%{python35u_record}
-%endif
 
 find %{buildroot}%{python35u_sitelib} -name '*.exe' | xargs rm -f
 chmod +x %{buildroot}%{python35u_sitelib}/setuptools/command/easy_install.py
@@ -105,6 +72,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 - Latest upstream
 - License changed to MIT
 - Drop unused patches
+- Remove wheel support
 
 * Thu Feb 18 2016 Ben Harper <ben.harper@rackspace.com> - 19.7-1.ius
 - updating to 19.7
