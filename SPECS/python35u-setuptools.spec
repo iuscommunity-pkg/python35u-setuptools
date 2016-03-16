@@ -34,6 +34,9 @@ execute the software that requires pkg_resources.py.
 %prep
 %setup -q -n %{srcname}-%{version}
 
+# Strip shebangs
+find setuptools -name \*.py | xargs sed -i -e '1 {/^#!\//d}'
+
 # Remove bundled exes
 rm -f setuptools/*.exe
 # These tests require internet connection
@@ -52,7 +55,6 @@ rm -f %{buildroot}%{_bindir}/easy_install
 
 find %{buildroot}%{python35u_sitelib} -name '*.exe' | xargs rm -f
 chmod +x %{buildroot}%{python35u_sitelib}/setuptools/command/easy_install.py
-sed -i '1s|#!/usr/bin/env python|&%{python35u_version}|' %{buildroot}%{python35u_sitelib}/setuptools/command/easy_install.py
 
 
 %if 0%{?with_check}
@@ -73,6 +75,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 - License changed to MIT
 - Drop unused patches
 - Remove wheel support
+- Strip shebangs
 
 * Thu Feb 18 2016 Ben Harper <ben.harper@rackspace.com> - 19.7-1.ius
 - updating to 19.7
