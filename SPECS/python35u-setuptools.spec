@@ -10,7 +10,7 @@
 %global ius_suffix 35u
 
 Name:           python%{ius_suffix}-setuptools
-Version:        19.7
+Version:        20.2.2
 Release:        1.ius%{?dist}
 Summary:        Easily build and distribute Python packages
 
@@ -109,6 +109,9 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test
 
 
 %changelog
+* Wed Mar 16 2016 Carl George <carl.george@rackspace.com> - 20.2.2-2.ius
+- Latest upstream
+
 * Thu Feb 18 2016 Ben Harper <ben.harper@rackspace.com> - 19.7-1.ius
 - updating to 19.7
 
