@@ -5,14 +5,14 @@
 %global ius_suffix 35u
 
 Name:           python%{ius_suffix}-setuptools
-Version:        20.2.2
+Version:        20.10.1
 Release:        1.ius%{?dist}
 Summary:        Easily build and distribute Python packages
 
 Group:          Applications/System
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
-Source0:        https://pypi.python.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        https://pypi.io/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python%{ius_suffix}-devel
@@ -69,6 +69,11 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test-%{python35u_version}
 
 
 %changelog
+* Tue May 03 2016 Ben Harper <ben.harper@rackspace.com> - 20.10.1-1.ius
+- updating to 20.10.1
+- update Source0 url to pypi.io see
+  https://bitbucket.org/pypa/pypi/issues/438/backwards-compatible-un-hashed-package
+
 * Wed Mar 16 2016 Carl George <carl.george@rackspace.com> - 20.2.2-2.ius
 - Latest upstream
 - License changed to MIT
