@@ -12,7 +12,7 @@ Summary:        Easily build and distribute Python packages
 Group:          Applications/System
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
-Source0:        https://pypi.io/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
+Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python%{ius_suffix}-devel
@@ -71,6 +71,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test-%{python35u_version}
 %changelog
 * Thu Jun 02 2016 Carl George <carl.george@rackspace.com> - 21.2.2-1.ius
 - Latest upstream
+- Switch Source0 URL to upstream recommendation
 
 * Tue May 03 2016 Ben Harper <ben.harper@rackspace.com> - 20.10.1-1.ius
 - updating to 20.10.1
