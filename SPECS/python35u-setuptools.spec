@@ -5,7 +5,7 @@
 %global ius_suffix 35u
 
 Name:           python%{ius_suffix}-setuptools
-Version:        25.4.0
+Version:        27.3.1
 Release:        1.ius%{?dist}
 Summary:        Easily build and distribute Python packages
 
@@ -69,6 +69,9 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test-%{python35u_version}
 
 
 %changelog
+* Mon Oct 03 2016 Carl George <carl.george@rackspace.com> - 27.3.1-1.ius
+- Latest upstream
+
 * Tue Sep 06 2016 Carl George <carl.george@rackspace.com> - 25.4.0-1.ius
 - Latest upstream
 
