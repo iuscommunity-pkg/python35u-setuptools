@@ -63,6 +63,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test-%{python35u_version}
 
 
 %files
+%license LICENSE
 %doc docs/*
 %{python35u_sitelib}/*
 %{_bindir}/easy_install-%{python35u_version}
@@ -71,6 +72,7 @@ LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test-%{python35u_version}
 %changelog
 * Mon Mar 06 2017 Carl George <carl.george@rackspace.com> - 33.1.1-1.ius
 - Update to version 33
+- Install LICENSE file
 
 * Mon Dec 05 2016 Ben Harper <ben.harper@rackspace.com> - 30.2.0-1.ius
 - Monthly release
