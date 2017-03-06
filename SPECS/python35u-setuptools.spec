@@ -1,24 +1,20 @@
+%global python python35u
 %global with_check 0
-
 %global srcname setuptools
 
-%global ius_suffix 35u
-
-Name:           python%{ius_suffix}-setuptools
+Name:           %{python}-%{srcname}
 Version:        33.1.1
 Release:        1.ius%{?dist}
 Summary:        Easily build and distribute Python packages
-
 Group:          Applications/System
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.zip
-
 BuildArch:      noarch
-BuildRequires:  python%{ius_suffix}-devel
+BuildRequires:  %{python}-devel
 %if 0%{?with_check}
-BuildRequires:  python%{ius_suffix}-pytest
-BuildRequires:  python%{ius_suffix}-mock
+BuildRequires:  %{python}-pytest
+BuildRequires:  %{python}-mock
 %endif # with_check
 
 
@@ -36,9 +32,6 @@ execute the software that requires pkg_resources.py.
 
 # Strip shebangs
 find setuptools -name \*.py | xargs sed -i -e '1 {/^#!\//d}'
-
-# Remove bundled exes
-rm -f setuptools/*.exe
 # These tests require internet connection
 rm setuptools/tests/test_integration.py 
 
@@ -48,12 +41,11 @@ rm setuptools/tests/test_integration.py
 
 
 %install
-%{__python35u} setup.py install --skip-build --root %{buildroot}
+%{__python35u} setup.py install --optimize 1 --skip-build --root %{buildroot}
 
 # remove undeeded items
-rm -rf %{buildroot}%{python35u_sitelib}/setuptools/tests
-rm -rf docs/{Makefile,conf.py,_*}
-rm -f %{buildroot}%{_bindir}/easy_install
+rm -r docs/{Makefile,conf.py,_*}
+rm %{buildroot}%{_bindir}/easy_install
 
 
 %if 0%{?with_check}
