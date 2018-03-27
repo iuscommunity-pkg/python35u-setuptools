@@ -3,10 +3,9 @@
 %global srcname setuptools
 
 Name:           %{python}-%{srcname}
-Version:        36.6.0
+Version:        39.0.1
 Release:        1.ius%{?dist}
 Summary:        Easily build and distribute Python packages
-Group:          Applications/System
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.zip
@@ -39,11 +38,11 @@ rm setuptools/tests/test_integration.py
 
 
 %build
-%{__python35u} setup.py build
+%{__python35} setup.py build
 
 
 %install
-%{__python35u} setup.py install --optimize 1 --skip-build --root %{buildroot}
+%{__python35} setup.py install --optimize 1 --skip-build --root %{buildroot}
 
 # remove undeeded items
 rm -r docs/{Makefile,conf.py,_*}
@@ -52,18 +51,26 @@ rm %{buildroot}%{_bindir}/easy_install
 
 %if 0%{?with_check}
 %check
-LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test-%{python35u_version}
+LANG=en_US.utf8 PYTHONPATH=$(pwd) py.test-%{python35_version}
 %endif # with_check
 
 
 %files
 %license LICENSE
-%doc docs/*
-%{python35u_sitelib}/*
-%{_bindir}/easy_install-%{python35u_version}
+%doc docs/* CHANGES.rst README.rst
+%{python35_sitelib}/easy_install.py
+%{python35_sitelib}/__pycache__/easy_install.cpython-35*.pyc
+%{python35_sitelib}/pkg_resources/
+%{python35_sitelib}/setuptools/
+%{python35_sitelib}/setuptools-%{version}-py3.5.egg-info
+%{_bindir}/easy_install-%{python35_version}
 
 
 %changelog
+* Tue Mar 27 2018 Carl George <carl@george.computer> - 39.0.1-1.ius
+- Latest upstream
+- Include CHANGES.rst and README.rst
+
 * Thu Nov 09 2017 Ben Harper <ben.harper@rackspace.com> - 36.6.0-1.ius
 - Latest version
 - don't include exe files
